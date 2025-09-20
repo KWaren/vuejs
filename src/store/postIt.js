@@ -5,37 +5,21 @@ import { ref, watch } from "vue";
 export const usePostIt = defineStore("postIt", () => {
   const postIts = ref([]);
   async function getData() {
-    try {
-      const response = await fetch("https://post-it.epi-bluelock.bj/notes");
-      const data = await response.json();
-      if (data.notes.length > 0) {
-        console.log(data.notes.length);
-        //  localStorage.removeItem("postIts");
-        postIts.value = [];
-        localStorage.removeItem("postIts");
-        console.log("tABLEAU " + postIts.value);
-
-      }
-      // data.notes[0].content[0];
-      // data.notes[0]._id;
-      // data.notes[0].title;
-      // data.notes[0].createdAt;
-      // data.notes[0].updatedAt;
-      console.log(data.notes[15]);
-      // return data;
-      for (let i = 0; i < 6; i++) {
-        postIts.value.push(data.notes[i]);
-      }
-    } catch (error) {
-      console.error("Erreur :", error);
+    const response = await fetch("https://post-it.epi-bluelock.bj/notes");
+    const data = await response.json();
+    if (data.notes.length > 0) {
+      postIts.value = [];
+    }
+    // data.notes[0].content[0];
+    // data.notes[0]._id;
+    // data.notes[0].title;
+    // data.notes[0].createdAt;
+    // data.notes[0].updatedAt;
+    for (let i = 0; i < 6; i++) {
+      postIts.value.push(data.notes[i]);
     }
   }
 
-  // Charger les données du localStorage au démarrage
-  const savedPostIts = localStorage.getItem("postIts");
-  if (savedPostIts) {
-    postIts.value = JSON.parse(savedPostIts);
-  }
   getData();
 
   const addPostIt = async (postIt) => {
@@ -72,27 +56,15 @@ export const usePostIt = defineStore("postIt", () => {
     router.push('/');
   };
   function getOnePostIt(_id) {
-    // console.log(_id);
     return postIts.value.find(a => a._id === _id)
   }
-  async function updatePostIt(_id, up) {
-    // const date = new Date();
-    // const dateLocale = date.toLocaleString("fr-FR", {
-    //   weekday: "long",
-    //   year: "numeric",
-    //   month: "long",
-    //   day: "numeric",
-    //   hour: "numeric",
-    //   minute: "numeric",
-    //   second: "numeric",
-    // });
-    // up.updatedAt = dateLocale;
 
+  async function updatePostIt(_id, up) {
     const index = postIts.value.findIndex(a => a._id === _id)
     if (index !== -1) {
       postIts.value[index] = { ...postIts.value[index], ...up }
     }
-    const url = 'https://post-it.epi-bluelock.bj/notes/'+_id;
+    const url = 'https://post-it.epi-bluelock.bj/notes/' + _id;
     const data = {
       title: up.title,
       content: [
@@ -111,14 +83,13 @@ export const usePostIt = defineStore("postIt", () => {
 
     const result = await response.json();
     console.log('Réponse du serveur :', result);
-     router.push('/')
+    router.push('/')
 
 
 
   }
   function deleteAll() {
     postIts.value = [];
-    localStorage.removeItem("postIts");
   }
 
   async function deleteOne(_id) {
@@ -135,14 +106,6 @@ export const usePostIt = defineStore("postIt", () => {
 
     // postIts.value = postIts.value.filter(a => a._id !== _id)
   }
-  // Sauvegarde automatique à chaque modification
-  watch(
-    postIts,
-    (newPostIts) => {
-      localStorage.setItem("postIts", JSON.stringify(newPostIts));
-    },
-    { deep: true }
-  );
 
   return {
     postIts,
@@ -152,7 +115,11 @@ export const usePostIt = defineStore("postIt", () => {
     deleteAll,
     deleteOne,
   };
-});
+},
+  {
+    persist: true, 
+  }
+);
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(usePostIt, import.meta.hot))
 }

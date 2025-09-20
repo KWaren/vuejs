@@ -5,11 +5,8 @@ import { usePostIt } from "@/store/postIt";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const store = usePostIt();
-const postIts= store.postIts;
-// console.log(store);
+const postIts= store.postIts;;
 function deleteAll() {
-    // console.log("fdn,fdkjs");
-    
     store.deleteAll();
   window.location.reload();
 
