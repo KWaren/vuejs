@@ -26,6 +26,6 @@ const router = useRouter();
 const store = usePostIt();
 function add() {
   store.addPostIt({ title: title.value, content: content.value });
-  router.push('/');
+  
 }
 </script>

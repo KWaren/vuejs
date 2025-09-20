@@ -44,6 +44,6 @@ onMounted(() => {
 })
 function deleteOne() {
   store.deleteOne(route.params._id);
-  router.push('/')
+  
 }
 </script>

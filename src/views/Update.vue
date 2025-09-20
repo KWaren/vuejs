@@ -38,6 +38,6 @@ function update() {
     
     
   store.updatePostIt(route.params._id, { title: title.value, content: content.value })
-  router.push('/')
+ 
 }
 </script>
