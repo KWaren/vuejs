@@ -2,6 +2,9 @@
 <template>
   <div class=" flex items-center justify-center">
     <div v-if="load" >En chargement</div>
+    <div v-else-if="erreur">
+      {{ erreur}}
+    </div>
     <div v-else class="flex flex-col flex-wrap bg-red-100 min-h-[60vh] my-15 w-[60vw] shadow rounded-lg ">
       <div class="flex w-full justify-center">
         <h2 class="text-4xl font-bold ">{{ title }}</h2>
@@ -29,8 +32,7 @@ const route = useRoute()
 const router = useRouter()
 const store = usePostIt();
 const load=ref(true)
-
-
+const erreur=ref(null)
 const title = ref('')
 const content = ref('')
 const date = ref('')
@@ -38,14 +40,16 @@ const date = ref('')
 
 onMounted(async() => {
   const postIt = await store.getOnePostIt(route.params._id)
-  if (postIt) {
-    console.log("rendu"+postIt)
-    title.value = postIt.title
-    content.value = postIt.content
-    date.value = postIt.updatedAt
+  if (postIt.success) {
+    console.log("Post-it récupéré :"+postIt.data)
+    title.value = postIt.data.title
+    content.value = postIt.data.content
+    date.value = postIt.data.updatedAt
     load.value= false
   }else{
-    console.log("rendu: echec")
+    console.log("Échec :", postIt.error);
+      erreur.value = "Impossible de charger ce Post-It.";
+    load.value = false;
 
   }
 })

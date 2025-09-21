@@ -21,10 +21,10 @@ export const usePostIt = defineStore("postIt", () => {
       postIts.value.push(data.notes[i]);
     }
     console.log(data);
-    
+    if (response.ok) {
+      return "ok";
+    }
   }
-
-  getData();
 
   const addPostIt = async (postIt) => {
     const response = await fetch("https://post-it.epi-bluelock.bj/notes", {
@@ -43,23 +43,29 @@ export const usePostIt = defineStore("postIt", () => {
 
     const data = await response.json();
     console.log("Success creation:", data.note_id);
-    
-
-
     router.push('/');
   };
- async function getOnePostIt(_id) {
-    const responseOne = await fetch("https://post-it.epi-bluelock.bj/notes/" +_id
-      , {
+  async function getOnePostIt(_id) {
+    try {
+      const response = await fetch("https://post-it.epi-bluelock.bj/notes/" + _id, {
         method: "GET",
         headers: {
-          "accept": "application/json"
+          accept: "application/json"
         }
       });
 
-    const data1 = await responseOne.json();
-    return data1; 
+      if (!response.ok) {
+        // Erreur côté serveur
+        throw new Error("Erreur HTTP " + response.status + ": " + response.statusText);
+      }
+
+      const data = await response.json();
+      return { success: true, data };
+    } catch (error) {
+      return { success: false, error: String(error) };
+    }
   }
+
 
   async function updatePostIt(_id, up) {
     console.log(up.title);
@@ -69,7 +75,7 @@ export const usePostIt = defineStore("postIt", () => {
     // if (i !== -1) {
     //   postIts.value[i] = { ...postIts.value[i], ...up }
     // }
-    const url = 'https://post-it.epi-bluelock.bj/notes/'+_id;
+    const url = 'https://post-it.epi-bluelock.bj/notes/' + _id;
 
     const response = await fetch(url, {
       method: 'PUT',
@@ -112,6 +118,7 @@ export const usePostIt = defineStore("postIt", () => {
 
   return {
     postIts,
+    getData,
     addPostIt,
     getOnePostIt,
     updatePostIt,
