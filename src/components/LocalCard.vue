@@ -5,7 +5,7 @@
             {{ erreur }}
         </div>
         <RouterLink v-else :to="{ name: 'local.notes.show', params: { _id: postIt._id } }"
-            class="card bg-red-100 hover:shadow-xl rounded-xl hover:bg-red-200 text-gray-800 px-5 mx-[1vw] my-3 w-[90vw] sm:w-[45vw] lg:w-[31vw] h-[26vh] transition duration-300 cursor-pointer"
+            class="card bg-blue-300 hover:shadow-xl rounded-xl hover:bg-blue-400 text-gray-800 px-5 mx-[1vw] my-3 w-[90vw] sm:w-[45vw] lg:w-[31vw] h-[26vh] transition duration-300 cursor-pointer"
             v-for="postIt in postIts">
             <div class="flex justify-between rounded-md pt-5 pb-2">
                 <h3 class="break-words line-clamp-2 text-3xl font-bold">{{ postIt.title }}</h3>
