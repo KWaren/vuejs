@@ -1,6 +1,6 @@
 <template>
   <div class=" flex items-center justify-center">
-    <div v-if="load">En chargement</div>
+        <div class="loader mt-40" v-if="load"></div>
     <div v-else-if="erreur">
       {{ erreur }}
     </div>

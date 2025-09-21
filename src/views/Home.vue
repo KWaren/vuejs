@@ -52,14 +52,12 @@ onMounted(async () => {
         </button> -->
     </section>
     <section class="h-full my-6 flex flex-wrap justify-center items-center">
-        <div v-if="load">
-            Chargement en cours
-        </div>
+        <div class="loader" v-if="load"></div>
         <RouterLink v-else :to="{ name: 'notes.show', params: { _id: postIt._id } }"
-            class="card bg-red-100 hover:shadow-xl rounded-xl hover:bg-red-200 text-gray-800 px-5 mx-[1vw] my-3 w-[90vw] sm:w-[45vw] lg:w-[31vw] h-[24vh] transition duration-300 cursor-pointer"
+            class="card bg-red-100 hover:shadow-xl rounded-xl hover:bg-red-200 text-gray-800 px-5 mx-[1vw] my-3 w-[90vw] sm:w-[45vw] lg:w-[31vw] h-[26vh] transition duration-300 cursor-pointer"
             v-for="postIt in postIts">
-            <div class="flex justify-between rounded-md pt-5">
-                <h3 class="text-4xl font-bold">{{ postIt.title }}</h3>
+            <div class="flex justify-between rounded-md pt-5 pb-2">
+                <h3 class="break-words line-clamp-2 text-3xl font-bold">{{ postIt.title }}</h3>
                 <RouterLink :to="{ name: 'notes.update', params: { _id: postIt._id } }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor"
@@ -69,7 +67,7 @@ onMounted(async () => {
                     </svg>
                 </RouterLink>
             </div>
-            <p>{{ postIt.content[0] }}</p>
+            <p class="break-words line-clamp-3">{{ postIt.content[0] }}</p>
         </RouterLink>
     </section>
 </template>
