@@ -18,13 +18,16 @@
                     </svg>
                 </RouterLink>
             </div>
+            
             <p class="break-words line-clamp-3">{{ postIt.content }}</p>
         </RouterLink>
     </section>
 </template>
+
 <script setup>
 defineProps({
     load: Boolean,
-    postIts: Array
+    postIts: Array,
+    erreur:String
 })
 </script>

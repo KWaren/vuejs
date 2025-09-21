@@ -5,6 +5,8 @@ import { ref, onMounted, computed } from 'vue';
 
 import { usePostIt } from "@/store/postIt";
 import { useRouter } from 'vue-router';
+console.log("gfgf");
+
 const router = useRouter();
 const store = usePostIt();
 const postIts = computed(() => store.postIts);

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import Card from '@/components/LocalCard.vue';
 import { ref, onMounted, computed } from 'vue';
 
 import { usePostIt } from "@/store/localPostIt";
@@ -73,5 +72,5 @@ onMounted( () => {
             <p class="break-words line-clamp-3">{{ postIt.content[0] }}</p>
         </RouterLink>
     </section> -->
-    <LocalCard :load="load" :postIts="postIts"></LocalCard>
+    <LocalCard :load="load" :postIts="postIts" :erreur="erreur"></LocalCard>
 </template>
