@@ -4,7 +4,7 @@
     <div v-else-if="erreur">
       {{ erreur }}
     </div>
-    <form v-else class="flex flex-col min-h-[50vh] px-8 my-15 w-[60vw] shadow-lg rounded-lg bg-white " @submit.prevent="update"
+    <form v-else class="flex flex-col min-h-[50vh] px-8 pt-8 my-15 w-[60vw] shadow-lg rounded-lg bg-white " @submit.prevent="update"
       method="post">
        <h2 class="text-4xl font-bold text-blue-900 pb-1">Modifier ce post it</h2>
       <div v-for="erreur in erreurs" class="w-full my-2 flex justify-center ">
