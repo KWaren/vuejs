@@ -7,6 +7,8 @@ export const usePostIt = defineStore("postIt", () => {
   async function getData() {
     const response = await fetch("https://post-it.epi-bluelock.bj/notes");
     const data = await response.json();
+    // console.log('Réponse du serveur :', data);
+
     if (data.notes.length > 0) {
       postIts.value = [];
     }
@@ -15,28 +17,16 @@ export const usePostIt = defineStore("postIt", () => {
     // data.notes[0].title;
     // data.notes[0].createdAt;
     // data.notes[0].updatedAt;
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < data.notes.length; i++) {
       postIts.value.push(data.notes[i]);
     }
+    console.log(data);
+    
   }
 
   getData();
 
   const addPostIt = async (postIt) => {
-    // const date = new Date();
-    // const dateLocale = date.toLocaleString("fr-FR", {
-    //   weekday: "long",
-    //   year: "numeric",
-    //   month: "long",
-    //   day: "numeric",
-    //   hour: "numeric",
-    //   minute: "numeric",
-    //   second: "numeric",
-    // });
-    // postIt._id = Date.now();
-    // postIt.createdAt = dateLocale;
-    // postIt.updatedAt = dateLocale;
-    // postIts.value.push(postIt);
     const response = await fetch("https://post-it.epi-bluelock.bj/notes", {
       method: "POST",
       headers: {
@@ -52,25 +42,34 @@ export const usePostIt = defineStore("postIt", () => {
     });
 
     const data = await response.json();
-    console.log("Success:", data);
+    console.log("Success creation:", data.note_id);
+    
+
+
     router.push('/');
   };
-  function getOnePostIt(_id) {
-    return postIts.value.find(a => a._id === _id)
+ async function getOnePostIt(_id) {
+    const responseOne = await fetch("https://post-it.epi-bluelock.bj/notes/" +_id
+      , {
+        method: "GET",
+        headers: {
+          "accept": "application/json"
+        }
+      });
+
+    const data1 = await responseOne.json();
+    return data1; 
   }
 
   async function updatePostIt(_id, up) {
-    const index = postIts.value.findIndex(a => a._id === _id)
-    if (index !== -1) {
-      postIts.value[index] = { ...postIts.value[index], ...up }
-    }
-    const url = 'https://post-it.epi-bluelock.bj/notes/' + _id;
-    const data = {
-      title: up.title,
-      content: [
-        up.content
-      ]
-    };
+    console.log(up.title);
+    console.log(up.content);
+
+    // const i = postIts.value.findIndex(a => a._id === _id)
+    // if (i !== -1) {
+    //   postIts.value[i] = { ...postIts.value[i], ...up }
+    // }
+    const url = 'https://post-it.epi-bluelock.bj/notes/'+_id;
 
     const response = await fetch(url, {
       method: 'PUT',
@@ -78,9 +77,13 @@ export const usePostIt = defineStore("postIt", () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        title: up.title,
+        content: [
+          up.content
+        ]
+      })
     });
-
     const result = await response.json();
     console.log('Réponse du serveur :', result);
     router.push('/')
@@ -117,7 +120,7 @@ export const usePostIt = defineStore("postIt", () => {
   };
 },
   {
-    persist: true, 
+    persist: true,
   }
 );
 if (import.meta.hot) {

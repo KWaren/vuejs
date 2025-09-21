@@ -24,18 +24,17 @@ const content = ref('')
 const date = ref('')
 // console.log(route.params._id);
 
-onMounted(() => {
-  const postIt = store.getOnePostIt(route.params._id)
+onMounted(async () => {
+  const postIt = await store.getOnePostIt(route.params._id);
   if (postIt) {
-    title.value = postIt.title
-    content.value = postIt.content
-    date.value = postIt.date
+    title.value = postIt.title;
+    content.value = postIt.content[0];
+    date.value = postIt.date;
   }
-})
+});
 function update() {
-    console.log(route.params._id);
-    console.log(content.value);
-    
+    // console.log(route.params._id);
+    // console.log(c.value);
     
   store.updatePostIt(route.params._id, { title: title.value, content: content.value })
  
