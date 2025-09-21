@@ -4,12 +4,12 @@
         <div v-else-if="erreur">
             {{ erreur }}
         </div>
-        <RouterLink v-else :to="{ name: 'notes.show', params: { _id: postIt._id } }"
+        <RouterLink v-else :to="{ name: 'local.notes.show', params: { _id: postIt._id } }"
             class="card bg-red-100 hover:shadow-xl rounded-xl hover:bg-red-200 text-gray-800 px-5 mx-[1vw] my-3 w-[90vw] sm:w-[45vw] lg:w-[31vw] h-[26vh] transition duration-300 cursor-pointer"
             v-for="postIt in postIts">
             <div class="flex justify-between rounded-md pt-5 pb-2">
                 <h3 class="break-words line-clamp-2 text-3xl font-bold">{{ postIt.title }}</h3>
-                <RouterLink :to="{ name: 'notes.update', params: { _id: postIt._id } }">
+                <RouterLink :to="{ name: 'local.notes.update', params: { _id: postIt._id } }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor"
                         class="size-8 p-2 rounded-3xl text-gray-800 bg-white transition duration-200 hover:shadow-md hover:scale-105">
@@ -18,7 +18,7 @@
                     </svg>
                 </RouterLink>
             </div>
-            <p class="break-words line-clamp-3">{{ postIt.content[0] }}</p>
+            <p class="break-words line-clamp-3">{{ postIt.content }}</p>
         </RouterLink>
     </section>
 </template>

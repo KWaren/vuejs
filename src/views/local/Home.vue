@@ -1,26 +1,30 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import Card from '../components/Card.vue';
+import Card from '@/components/LocalCard.vue';
 import { ref, onMounted, computed } from 'vue';
 
-import { usePostIt } from "@/store/postIt";
+import { usePostIt } from "@/store/localPostIt";
 import { useRouter } from 'vue-router';
+import LocalCard from '@/components/LocalCard.vue';
 const router = useRouter();
 const store = usePostIt();
 const postIts = computed(() => store.postIts);
 const load = ref(true)
+const erreur = ref('')
 function deleteAll() {
     store.deleteAll();
     window.location.reload();
 }
 
-onMounted(async () => {
-    const get = await store.getData();
-    if (get == "ok") {
-        console.log("rendu " + get)
+onMounted( () => {
+    const postIts =  store.postIts;
+    if (postIts.length > 0) {
+        // console.log("rendu " + get)
         load.value = false
     } else {
         console.log("rendu: echec")
+        erreur.value= "Not data found";
+        load.value = false
 
     }
 })
@@ -31,7 +35,7 @@ onMounted(async () => {
 
 <template>
     <section class="flex justify-center py-10">
-        <RouterLink :to="{ name: 'notes.create' }"
+        <RouterLink :to="{ name: 'local.notes.create' }"
             class=" flex bg-blue-600  p-3 mr-3  text-white cursor-pointer rounded-md hover:bg-blue-800 hover:scale-102 transition  duration-300 ease-in-out ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6 mr-3 bg-blue-700  rounded-sm">
@@ -39,7 +43,7 @@ onMounted(async () => {
             </svg>
             Nouveau Post-It
         </RouterLink>
-        <!-- <button @click="deleteAll"
+        <button @click="deleteAll"
             class=" flex bg-red-100 border p-3 mx-3  text-red-600 cursor-pointer rounded-md hover:bg-red-500 hover:text-white transition  duration-300 ease-in-out ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
@@ -48,7 +52,7 @@ onMounted(async () => {
             </svg>
 
             Supprimer tout
-        </button> -->
+        </button>
     </section>
     <!-- <section class="h-full my-6 flex flex-wrap justify-center items-center">
         <div class="loader" v-if="load"></div>
@@ -69,5 +73,5 @@ onMounted(async () => {
             <p class="break-words line-clamp-3">{{ postIt.content[0] }}</p>
         </RouterLink>
     </section> -->
-    <Card :load="load" :postIts="postIts"></Card>
+    <LocalCard :load="load" :postIts="postIts"></LocalCard>
 </template>

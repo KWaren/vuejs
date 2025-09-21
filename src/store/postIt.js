@@ -1,6 +1,6 @@
 import router from "@/router";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 export const usePostIt = defineStore("postIt", () => {
   const postIts = ref([]);
@@ -8,10 +8,8 @@ export const usePostIt = defineStore("postIt", () => {
     const response = await fetch("https://post-it.epi-bluelock.bj/notes");
     const data = await response.json();
     // console.log('Réponse du serveur :', data);
-
-    if (data.notes.length > 0) {
       postIts.value = [];
-    }
+
     // data.notes[0].content[0];
     // data.notes[0]._id;
     // data.notes[0].title;

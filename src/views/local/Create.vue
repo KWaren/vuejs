@@ -20,11 +20,13 @@ import { ref } from 'vue'
 const title = ref('')
 const content = ref('')
 
-import { usePostIt } from "@/store/postIt";
+import { usePostIt } from "@/store/localPostIt";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const store = usePostIt();
 function add() {
+  console.log(content.value);
+  
   store.addPostIt({ title: title.value, content: content.value });
   
 }
