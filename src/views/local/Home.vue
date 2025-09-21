@@ -8,6 +8,9 @@ import LocalCard from '@/components/LocalCard.vue';
 const router = useRouter();
 const store = usePostIt();
 const postIts = computed(() => store.postIts);
+const sortedPostIts = computed(() => {
+  return [...store.postIts].sort((a, b) => b._id - a._id);
+});
 const load = ref(true)
 const erreur = ref('')
 function deleteAll() {
@@ -17,6 +20,7 @@ function deleteAll() {
 
 onMounted( () => {
     const postIts =  store.postIts;
+    
     if (postIts.length > 0) {
         // console.log("rendu " + get)
         load.value = false
@@ -72,5 +76,5 @@ onMounted( () => {
             <p class="break-words line-clamp-3">{{ postIt.content[0] }}</p>
         </RouterLink>
     </section> -->
-    <LocalCard :load="load" :postIts="postIts" :erreur="erreur"></LocalCard>
+    <LocalCard :load="load" :postIts="sortedPostIts" :erreur="erreur"></LocalCard>
 </template>
