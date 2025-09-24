@@ -16,7 +16,7 @@ jobs:
       - name: Build du code
         run: npm run build
       - name: Archive du build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build-results
           path: dist
